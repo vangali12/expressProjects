@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1>The Dojo Message Board</h1>
+	<hr>
+	<form action='/createMessage' method='post'>
+		<p>Name: <input type="text" name="name"></p>
+		<p>Message:</p>
+		<p><textarea cols='40' rows='4' name="text"></textarea></p>
+		<input type="submit" name="submit" value="Post Message">
+	</form>
+	<% if(typeof(errors) != 'undefined' ) { %>
+		<% for (var x in errors) { %>
+    	<h3><%= errors[x].message %></h3>
+    	<% } %>
+    <% } %>
+
+    <% for (var i in messages) { %>
+    	<h4>Name: <%= messages[i].name %></h4>
+    	<h4>Message: <%= messages[i].text %></h4>
+    	<% for (var j of messages[i].comments) { %>
+    		<p>Name: <%= j.name %></p>
+    		<p>Comment: <%= j.text %></p>
+    		<br>
+    	<% } %>
+    	<form action="/createComment/<%= messages[i]._id %>" method='post'>
+    		<p>Name: <input type="text" name="name"></p>
+    		<p>Comment: <input type="text" name="text"></p>
+    		<input type="submit" name="submit" value="Post Comment">
+    	</form>
+    	<hr>
+    <% } %>
+</body>
+</html>

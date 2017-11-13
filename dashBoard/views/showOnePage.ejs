@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<a href="/"><button>Home</button></a>
+	<h1>Say Hello to <%= otter[0].name %></h1>
+	<h3>Name: <%= otter[0].name %></h3>
+	<h3>Age: <%= otter[0].age %></h3>
+	<h3>Pebble Shape: <%= otter[0].pebbleShape %></h3>
+	<a href="/otters/edit/<%= otter[0]._id %>"><button>Edit</button></a>
+	<form action="/otters/destroy/<%= otter[0]._id %>" method='post'>
+		<button type="submit">Delete</button>
+	</form>
+</body>
+</html>

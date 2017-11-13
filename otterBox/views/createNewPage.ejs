@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<a href="/"><button>Let's go to the Otter Den!</button></a>
+	<h1>Create a Furry Friend!</h1>
+	<form action='/otters' method='post'>
+		<p>Name: <input type="text" name="name"></p>
+		<p>Age: <input type="text" name="age"></p>
+		<p>Pebble Shape: <input type="text" name="pebbleShape"></p>
+		<button type="submit">Add Otter</button>
+	</form>
+	<% if(typeof(errors) != 'undefined' ) { %>
+		<% for (var x in errors) { %>
+    	<h3><%= errors[x].message %></h3>
+    	<% } %>
+    <% } %>
+</body>
+</html>

@@ -1,0 +1,125 @@
+md users
+cd users
+npm init -y
+npm install express ejs path body-parser express-session mongoose --save
+md controllers //logic
+md models //database
+md config //routing
+md views //templates
+md static //static content, js, css, etc
+   // Eventually angular will handle the views & static file in the future.
+type nul> server.js
+cd config
+type nul> mongoose.js //loading our schema and loading our database
+type nul> routes.js //handle our routing
+cd ../
+cd controllers
+type nul> users.js
+cd ../
+cd models
+type nul> users.js
+
+
+
+****server.js**** (inside main project folder)
+var express = require("express");
+var path = require("path"); // Module that allows OS independednt way of handling file paths
+var bp = require("body-parser"); // Module that allows to take in information from the front end and transfer to the back end
+var session = require("express-session"); // Module that allows the use of session.
+var port = 8000;
+
+var app = express();
+
+app.use(express.static(path.join(__dirname, "/static")));
+app.use(bp.urlencoded({extended:true}));
+app.use(session({secret: 'secretCode'}));
+
+app.set('views', path.join(__dirname, '/views'));
+app.set('view engine', 'ejs);
+
+require("./config/mongoose") //THIS LINE MUST GO ABOVE THE /routes LINE
+require("./config/routes")(app);
+
+app.listen(port, function() {
+	console.log(`We are listening to port $(port)`);
+}
+
+
+
+****routes.js**** (inside config folder)
+var users = require("./../controllers/users.js")
+module.exports = function(app) {
+     app.get("/", function(req, res) {
+     	users.index(req, res);
+     })
+     app.post("/create", function(req, res) {
+	users.create(req, res);
+     })
+}
+
+
+
+****users.js**** (inside controller folder - create one for every Schema(?))
+var mongoose = require("mongoose");
+var User = mongoose.model("User")
+module.exports = {
+     index:function(req, res) {
+	User.find({}, function(err, users){
+	     return res.render("index", {users: users})
+	})
+     },
+     create:function(req, res) {
+	User.create({name: req.body.name}, function(err, user) {	
+	     return res.redirect("/");
+	})
+     }
+}
+
+
+
+****index.ejs**** (inside views folder)
+<html>
+<body>
+     <form action='/create' method='post'>
+     	<input type="text" name="name">
+     	<input type="submit" name="submit">
+     </form>
+</body>
+</html>
+
+
+
+****mongoose.js**** (inside config folder)
+var mongoose = require("mongoose");
+var path = require("path");
+var fs = require("fs"); //fs = file system. allows us to read and write files
+var mp = path.join(__dirname, "./../models");
+
+mongoose.connect("mongodb://localhost/usersdb_6); //replace usersdb_6 with database name
+
+fs.readdirSync(mp).forEach(function(file){ 
+     if(file.indexOf(".js") >=0){ //if this file has .js in it, 
+	require(mp + "/" + file);
+     }
+})
+
+
+
+****users.js**** (inside models folder)
+var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
+
+var UserSchema = new Schema({
+     name: String
+})
+
+mongoose.model("User", UserSchema); //When someone asks for this ("USER"), let them access the UserSchema
+
+
+
+
+
+
+server.js -> routes.js -> controller(users)----> database
+		|-------> controller(products)------^
+		|-------> controller(..etc..)-------|

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1>Show All Page</h1>
+	<a href="/otters/new"><button>Create Anotter</button></a>
+	<% for (i in otters) { %>
+		<h4>Name: <a href="/otters/<%= otters[i]._id %>"><%= otters[i].name %></h4></a>
+		<h4>Age: <%= otters[i].age %></h4>
+		<h4>Pebble Shape: <%= otters[i].pebbleShape %></h4>
+		<hr>
+	<% } %>
+</body>
+</html>

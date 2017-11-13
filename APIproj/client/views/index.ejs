@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1>Welcome to Task Con</h1>
+	<form action='/create' method='post'>
+	<h3>Title: <input type="text" name="title"></h3>
+	<h3>Description: <input type="text" name="description"></h3>
+	
+	<input type="submit" name="submit" value="Create Task">
+	</form>
+	<% for (i in tasks) { %>
+		<p><%= tasks[i] %>
+		<form action="/delete/<%= tasks[i]._id %>" method='post'><input type="submit" name="submit" value="Delete"></form>
+		<form action="/edit/<%= tasks[i]._id %>" method='post'><input type="submit" name="submit" value="Edit"></form>
+		<form action="/completed/<%= tasks[i]._id %>" method='post'><input type="submit" name="submit" value="Completed"></form></p>
+	<% } %>
+</body>
+</html>
